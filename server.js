@@ -43,7 +43,7 @@ App.get("/callback", function (req, res) {
 
     transporter.sendMail({
       from: 'postmaster@mailgun.solda.io',
-      to: 'motephyr@gmail.com',
+      to: 'support@solda.io',
       subject: '簡訊寄送失敗',
       text: content
     });
