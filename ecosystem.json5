@@ -36,11 +36,11 @@
       user : "deploy",
       host : "alpha.solda.io",
       ref  : "origin/master",
-      repo : "git@github.com:motephyr/NCServer.git",
-      path : "/home/deploy/www/alpha/SoldaBackend",
+      repo : "git@github.com:Solda/NCServer.git",
+      path : "/home/deploy/www/ncserver",
       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json5 --env production"
     },
-    alpha : {
+    production : {
 
     }
   }

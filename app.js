@@ -19,10 +19,10 @@ var transporter = Nodemailer.createTransport(
 App.get("/callback", function (req, res) {
   console.log(req.query);
   transporter.sendMail({
-    from: 'bbb@gmail.com',
-    to: 'motephyr@gmail.com',
-    subject: 'test',
-    text: 'test'
+    from: 'postmaster@mailgun.solda.io',
+    to: 'support@solda.io',
+    subject: '簡訊寄送失敗',
+    text: req.query
   });
 
   res.status(200).json({});
