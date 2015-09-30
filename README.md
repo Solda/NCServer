@@ -20,7 +20,7 @@ pm2 deploy ecosystem.json5 production setup
 
 - 複製設定檔
 
-./copy-config.sh production  
+./copy-config.sh solda  //這是用scp傳上去的  
 
 - 佈上去~
 
