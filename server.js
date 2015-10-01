@@ -39,7 +39,7 @@ App.get("/callback", function (req, res) {
     'message_timestamp:' + message_timestamp + '\n' +
     'client_ref:' + client_ref;
 
-  if (req.query.status != 'delivered') {
+  if (req.query.status != 'delivered' && req.query.status != 'accepted' && req.query.status != 'buffered') {
 
     transporter.sendMail({
       from: 'postmaster@mailgun.solda.io',
