@@ -1,3 +1,5 @@
 node_modules
 config/*.json5
 ecosystem.json5
+
+config/knexfile.js

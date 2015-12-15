@@ -17,6 +17,16 @@ var transporter = Nodemailer.createTransport(
   SmtpTransport(Config.get('MailgunConfig'))
 );
 
+
+var path = require('path')
+var templateDir = path.join(__dirname, 'templates', 'pasta-dinner')
+var EmailTemplate = require('email-templates').EmailTemplate
+
+var template = new EmailTemplate(templateDir)
+var Moment = require('moment')
+
+var Query = require('./query')
+
 App.get("/callback", function (req, res) {
   var to = req.query.to;
   var network_code = req.query['network-code'];
@@ -41,12 +51,40 @@ App.get("/callback", function (req, res) {
 
   if (req.query.status != 'delivered' && req.query.status != 'accepted' && req.query.status != 'buffered') {
 
-    transporter.sendMail({
-      from: 'postmaster@mailgun.solda.io',
-      to: 'support@solda.io',
-      subject: '簡訊寄送失敗',
-      text: content
-    });
+    // transporter.sendMail({
+    //   from: 'postmaster@mailgun.solda.io',
+    //   to: 'support@solda.io',
+    //   subject: '簡訊寄送失敗',
+    //   text: content
+    // });
+
+    Query.getMailerDataByInvoiceId(client_ref).then(function (row) {
+      row.shipped_at = Moment(row.shipped_at).format('MM/DD');
+      var invoices = [{
+        title: '訂單 #' + row.id + ' 到貨簡訊寄送失敗',
+        email: row.email,
+        invoice: row
+      }]
+
+      return invoices;
+    }).then(function (invoices) {
+      var templates = invoices.map(function (invoice) {
+        return template.render(invoice)
+      })
+
+      Promise.all(templates)
+        .then(function (results) {
+          console.log(results);
+          transporter.sendMail({
+            from: 'postmaster@mailgun.solda.io',
+            to: invoices[0].email,
+            subject: invoices[0].title,
+            html: results[0].html,
+            text: results[0].text
+          });
+        })
+    })
+
   }
 
   res.status(200).json(req.query);
