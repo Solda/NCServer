@@ -36,16 +36,15 @@ App.get("/callback", function (req, res) {
 
   if (req.query.status != 'delivered' && req.query.status != 'accepted' && req.query.status != 'buffered') {
 
-    // transporter.sendMail({
-    //   from: 'postmaster@mailgun.solda.io',
-    //   to: 'support@solda.io',
-    //   subject: '簡訊寄送失敗',
-    //   text: content
-    // });
+    transporter.sendMail({
+      from: 'postmaster@mailgun.solda.io',
+      to: 'support@solda.io',
+      subject: '簡訊寄送失敗',
+      text: content
+    });
     MailerService.sendCancelEmail(client_ref);
 
   }
 
   res.status(200).json(req.query);
 });
-MailerService.sendCancelEmail(123123);
