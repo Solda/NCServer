@@ -11,9 +11,9 @@ var exec = require('child_process').exec
 module.exports = {
   sendCancelEmail: function (invoice_id) {
     exec(
-      "'cd /home/deploy/www/SoldaBackend/current && bin/rails runner -e " +
+      "cd /home/deploy/www/SoldaBackend/current && bin/rails runner -e " +
       process.env["NODE_ENV"] +
-      " SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");'",
+      " 'SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");'",
       function (error, stdout, stderr) {
         if (error){ console.log('error:' + error)};
         if (stdout){ console.log('stdout:' + stdout)};
