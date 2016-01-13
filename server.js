@@ -1,3 +1,11 @@
+var Config = require('config');
+
+var Nodemailer = require('nodemailer');
+var SmtpTransport = require('nodemailer-smtp-transport');
+
+var transporter = Nodemailer.createTransport(
+  SmtpTransport(Config.get('MailgunConfig'))
+);
 
 process.env["NODE_ENV"] = (process.env["NODE_ENV"]) || "development"
 var Express = require("express"),

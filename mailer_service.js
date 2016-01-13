@@ -1,12 +1,3 @@
-var Config = require('config');
-
-var Nodemailer = require('nodemailer');
-var SmtpTransport = require('nodemailer-smtp-transport');
-
-var transporter = Nodemailer.createTransport(
-  SmtpTransport(Config.get('MailgunConfig'))
-);
-
 var path = require('path')
 var templateDir = path.join(__dirname, 'templates', 'pasta-dinner')
 var EmailTemplate = require('email-templates').EmailTemplate
