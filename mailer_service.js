@@ -10,14 +10,14 @@ var Query = require('./query')
 var exec = require('child_process').exec
 module.exports = {
   sendCancelEmail: function (invoice_id) {
-    console.log(process.env["NODE_ENV"])
     if (process.env["NODE_ENV"] === 'production'){
-      var run_sidekiq = "cd /home/deploy/www/SoldaBackend/current && bin/rails runner -e production" +
-      " 'SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");'";
-    }else{
-      var run_sidekiq = "cd /home/deploy/www/alpha/SoldaBackend/current && bin/rails runner -e alpha" +
-      " 'SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");'";
-    }
+          var run_sidekiq = "/bin/bash -l -c 'cd /home/deploy/www/SoldaBackend/current && bin/rails runner -e production" +
+          " \"SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");\"'";
+        }else{
+          var run_sidekiq = "/bin/bash -l -c 'cd /home/deploy/www/alpha/SoldaBackend/current && bin/rails runner -e alpha" +
+          " \"SmsFailNotificationAndConversionWorker.perform_async("+ invoice_id +");\"'";
+        }
+    console.log(run_sidekiq)
     exec(
       run_sidekiq,
       function (error, stdout, stderr) {
